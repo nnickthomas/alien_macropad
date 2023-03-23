@@ -41,7 +41,7 @@ def connect_to_network(timeout: int = 10) -> bool:
     # Wait for `timeout` seconds
     while timeout > 0:
         # If successful, blink the LED three times quickly and return True
-        if wlan.status() < 0 or wlan.status() >= 3:
+        if wlan.isconnected():
             blink_led(3, 0.1)
             LED.off()
             return True
