@@ -6,8 +6,7 @@ import urequests
 
 from machine import Pin
 
-# from conf import NetworkConfig, HAConfig, PicoConfig
-
+# Get configuration
 with open("/conf.json") as fil:
     CONFIG = json.load(fil)
 
