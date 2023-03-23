@@ -1,0 +1,22 @@
+{
+    "network": {
+        "ssid": "",
+        "password": ""
+    },
+    "buttons": [
+        {
+            "gpio": 5,
+            "request": {
+                "method": "POST",
+                "url": "http://homeassistant.local:8123/api/webhook/macropad_1"
+            }
+        },
+        {
+            "gpio": 6,
+            "request": {
+                "method": "POST",
+                "url": "http://homeassistant.local:8123/api/webhook/macropad_2"
+            }
+        }
+    ]
+}

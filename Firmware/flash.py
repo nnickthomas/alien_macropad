@@ -1,24 +1,22 @@
 import time
+import json
 import network
 import uasyncio
 import urequests
 
 from machine import Pin
 
-from conf import NetworkConfig, HAConfig, PicoConfig
+# from conf import NetworkConfig, HAConfig, PicoConfig
+
+with open("/conf.json") as fil:
+    CONFIG = json.load(fil)
 
 # On-board LED
 LED = Pin("LED", Pin.OUT)
 
-# GPIO pins used for switches
-SWITCHES = (
-    Pin(pin_num, Pin.IN, pull=Pin.PULL_UP) for pin_num in PicoConfig.SWITCH_PINS
-)
-
-# URL to use with HA
-PROTOCOL = "https://" if HAConfig.SSL else "http://"
-URL = f"{PROTOCOL}{HAConfig.BASE_URL}:{HAConfig.PORT}/api/webhook/{HAConfig.WEBHOOK_BASE}"
-
+#------------------------------------------------
+#                Task Functions
+#------------------------------------------------
 def blink_led(amt: int, speed: float) -> None:
     """Blinks the on-board LED
 
@@ -39,7 +37,7 @@ def connect_to_network(timeout: int = 10) -> bool:
     """
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
-    wlan.connect(NetworkConfig.SSID, NetworkConfig.PASSWORD)
+    wlan.connect(CONFIG["network"]["ssid"], CONFIG["network"]["password"])
 
     # Wait for `timeout` seconds
     while timeout > 0:
@@ -56,24 +54,29 @@ def connect_to_network(timeout: int = 10) -> bool:
     return False
 
 
-async def switch_listener(switch: Pin, position: int, lock: uasyncio.Lock):
+#------------------------------------------------
+#                Button Functions
+#------------------------------------------------
+async def switch_listener(button: dict, lock: uasyncio.Lock):
     """Asyncio function for listening to switch presses
 
     Args:
-        switch (Pin): Switch to listen to
-        position (int): Position of the switch, maps to HA webhooks
+        button (dict): Button dict containing important information
         lock (uasyncio.Lock): Lock to ensure only one switch is pressed at a time
     """
     is_pressed = False
-    while True:
+    switch = Pin(button["gpio"], Pin.IN, pull=Pin.PULL_UP)
 
+    while True:
+        # Handle button press
         if switch.value() == 0 and not is_pressed and not lock.locked():
             await lock.acquire()
             is_pressed = True
-            res = urequests.post(
-                URL.format(key_pos = position)
-            )
-            res.close()
+
+            res = urequests.request(**button["request"])
+
+            if res:
+                res.close()
             uasyncio.sleep_ms(200)
 
         # Release lock and set is_pressed to False
@@ -84,22 +87,28 @@ async def switch_listener(switch: Pin, position: int, lock: uasyncio.Lock):
         await uasyncio.sleep_ms(5)
 
 
-async def run_switch_listeners(*switches: Pin):
+async def run_switch_listeners():
     """Main function to drive the Pico"""
     lock = uasyncio.Lock()
-    for position, switch in enumerate(switches, start=1):
-        uasyncio.create_task(switch_listener(switch, position, lock))
+    for button in CONFIG["buttons"]:
+        uasyncio.create_task(switch_listener(button, lock))
 
+
+#------------------------------------------------
+#                Main Function
+#------------------------------------------------
 def main():
+    """Main Function"""
     if not connect_to_network():
-      # If the board failed to connect to the network, blink a lot
+        # If the board failed to connect to the network, blink a lot
         while True:
             blink_led(1, 0.1)
-
-    uasyncio.run(run_switch_listeners(*SWITCHES))
+    
+    uasyncio.run(run_switch_listeners())
 
     loop = uasyncio.get_event_loop()
     loop.run_forever()
 
+
 if __name__ == "__main__":
-   main()
+    main()
