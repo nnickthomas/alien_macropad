@@ -56,12 +56,12 @@ def connect_to_network(timeout: int = 10) -> bool:
 #------------------------------------------------
 #                Button Functions
 #------------------------------------------------
-async def switch_listener(button: dict, lock: uasyncio.Lock):
-    """Asyncio function for listening to switch presses
+async def button_listener(button: dict, lock: uasyncio.Lock):
+    """Asyncio function for listening to button presses
 
     Args:
         button (dict): Button dict containing important information
-        lock (uasyncio.Lock): Lock to ensure only one switch is pressed at a time
+        lock (uasyncio.Lock): Lock to ensure only one button is pressed at a time
     """
     is_pressed = False
     switch = Pin(button["gpio"], Pin.IN, pull=Pin.PULL_UP)
@@ -72,10 +72,12 @@ async def switch_listener(button: dict, lock: uasyncio.Lock):
             await lock.acquire()
             is_pressed = True
 
-            res = urequests.request(**button["request"])
-
-            if res:
-                res.close()
+            # Iterate through requests and execute them
+            for req in button.get('requests', []):
+                res = urequests.request(**req)
+                if res:
+                    res.close()
+                    
             uasyncio.sleep_ms(200)
 
         # Release lock and set is_pressed to False
@@ -86,11 +88,11 @@ async def switch_listener(button: dict, lock: uasyncio.Lock):
         await uasyncio.sleep_ms(5)
 
 
-async def run_switch_listeners():
-    """Main function to drive the Pico"""
+async def run_button_listeners():
+    """Function to initialize the buttons"""
     lock = uasyncio.Lock()
     for button in CONFIG["buttons"]:
-        uasyncio.create_task(switch_listener(button, lock))
+        uasyncio.create_task(button_listener(button, lock))
 
 
 #------------------------------------------------
@@ -98,12 +100,12 @@ async def run_switch_listeners():
 #------------------------------------------------
 def main():
     """Main Function"""
-    if not connect_to_network():
+    if not connect_to_network(CONFIG["network"].get('timeout', 10)):
         # If the board failed to connect to the network, blink a lot
         while True:
             blink_led(1, 0.1)
     
-    uasyncio.run(run_switch_listeners())
+    uasyncio.run(run_button_listeners())
 
     loop = uasyncio.get_event_loop()
     loop.run_forever()
