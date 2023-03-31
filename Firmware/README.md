@@ -12,6 +12,7 @@
     "buttons": [
         {
             "gpio": int,
+            Optional("type"): str['sequence', 'cycle']
             "requests": [
                 {
                 "method": str,

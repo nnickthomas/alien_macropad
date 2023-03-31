@@ -64,19 +64,37 @@ async def button_listener(button: dict, lock: uasyncio.Lock):
         lock (uasyncio.Lock): Lock to ensure only one button is pressed at a time
     """
     is_pressed = False
+    exec_type = button.get('type', 'sequence')
     switch = Pin(button["gpio"], Pin.IN, pull=Pin.PULL_UP)
+    
+    # Used for cycle type
+    req_count = len(button.get('requests', []))
+    press_count = 0
 
     while True:
         # Handle button press
         if switch.value() == 0 and not is_pressed and not lock.locked():
             await lock.acquire()
             is_pressed = True
-
+            
             # Iterate through requests and execute them
-            for req in button.get('requests', []):
+            if exec_type == 'sequence':
+                for req in button.get('requests', []):
+                    res = urequests.request(**req)
+                    if res:
+                        res.close()
+                        
+            # Cycle through requests and execute them
+            elif exec_type == 'cycle' and req_count:
+                req = button['requests'][press_count]
                 res = urequests.request(**req)
                 if res:
                     res.close()
+                press_count = (press_count + 1) % req_count
+                
+            # Blink three times if the type is invalid
+            else:
+                blink_led(3, 0.1)
                     
             uasyncio.sleep_ms(200)
 
