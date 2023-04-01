@@ -44,7 +44,7 @@ The alien macropad requires the following components:
 | Bottom Sandwich Plate  | 1x |
 | Adhesive Rubber Feet  | 4x |
 
-The following steps detail how to assemble the device.
+The following steps detail how to assemble the device:
 
 1) Place the PI into the U1 slot on the PCB and solder into place from the top. Please note that it may be easier for some people to perform the installation step at this phase as the Boostel button will be partially covered by the top sandwich!
 2) Place the Top Sandwich Plate on top
@@ -57,11 +57,19 @@ The following steps detail how to assemble the device.
 
 This section will detail how to install the Alien Macropad software onto the now connected Pi Pico W. Please note this has not yet been tested! Also see the official [Raspberry Pi Documentation](https://projects.raspberrypi.org/en/projects/get-started-pico-w/)
 
-   1) Download the correct [firmware](https://rpf.io/pico-w-firmware) for the Pi Pico W. The regular Pi Pico has not been tested.
-   2) Connect the microUSB cable to the Pi Pico W.
-   3) While holding down the "Boostel" button on the PICO, connect the device to another computer.
-   4) Copy the firmware file above onto the now opened directory. The file manager will open automatically on Windows and the above firmware can be dragged over.
-   4) Set your wi-fi credentials in the Alien_Macropad config file!
+   1) Download the latest version of the alien macropad. There will be two files inside (main.py and conf.json)
+   2) Set your wi-fi credentials in conf.json. Create your actions in conf.json (see the [firmware documentation](https://github.com/nnickthomas/alien_macropad/tree/main/Firmware).
+   3) Connect the microUSB cable to the Pi Pico W.
+   4) While holding down the "Boostel" button on the PICO, connect the device to another computer.
+   5) Copy the main.py file, and your modified conf.json onto the pi into the now opened directory. The file manager will open automatically on Windows and the files can be dragged over.
+   6) Download the correct [firmware](https://rpf.io/pico-w-firmware) for the Pi Pico W. The regular Pi Pico has not been tested.
+   7) Copy the firmware file above onto the opened directory.
+
+
+    **_NOTE:_**  It is critical to add main.py and conf.json before the pico firmware!
     
-    
-To be continued..
+## Configuration 🪐
+
+The Alien Macropad uses a JSON file to configure functionality. The JSON file is also where the wi-fi credentials are set.
+
+For instructions on how to configure the device, see the [firmware]((https://github.com/nnickthomas/alien_macropad/tree/main/Firmware)) section.
