@@ -86,7 +86,7 @@ For both types of requests, the following parameters can be configured:
 
 In sequence mode, each button press sends a sequence of requests to the configured URLs, in the order they are defined in the conf.json file. Once all requests in the sequence have been sent, the button will no longer send any requests until it is pressed again.
 
-To use sequence mode, set the "mode" value for each button to "sequence", and define an array of requests in the "requests" field for each button.
+To use sequence mode, set the "mode" value the button to "sequence", and define an array of requests in the "requests" field.
 
 Here's an example configuration for a button in sequence mode:
 
@@ -113,21 +113,30 @@ This button is configured to send a GET request to "https://example.com/endpoint
 
 ### 🌓 Cycle Mode
 
-In cycle mode, each button press sends a single request to a URL defined in the conf.json file. Each button press cycles through the defined URLs in order, looping back to the first URL after the last one has been sent.
+In cycle mode, each button press sends a single request defined in under 'request' one at a time, waiting for a new button press before sending the next. Once it reaches the end it will loop back to the beginning.
 
-To use cycle mode, set the "mode" value for each button to "cycle", and define an array of URLs in the "urls" field for each button.
+To use cycle mode, set the "mode" value the button to "cycle", and define an array of requests in the "requests" field.
 
 Here's an example configuration for a button in cycle mode:
 
     {
         "gpio": 6,
         "mode": "cycle",
-        "urls": [
-            "https://example.com/endpoint1",
-            "https://example.com/endpoint2",
-            "https://example.com/endpoint3"
+        "requests": [
+            {
+                "method": "GET",
+                "url": "https://example.com/endpoint1"
+            },
+            {
+                "method": "GET",
+                "url": "https://example.com/endpoint2"
+            },
+            {
+                "method": "GET",
+                "url": "https://example.com/endpoint3"
+            }
         ]
     }
 
-This button is configured to send a request to "https://example.com/endpoint1" on the first press, "https://example.com/endpoint2" on the second press, "https://example.com/endpoint3" on the third press, and then back to "https://example.com/endpoint1" on the fourth press, and so on.
+This button is configured to send a GET request to "https://example.com/endpoint1" on the first press, "https://example.com/endpoint2" on the second press, "https://example.com/endpoint3" on the third press, and then back to "https://example.com/endpoint1" on the fourth press, and so on.
 
