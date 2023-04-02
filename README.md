@@ -123,7 +123,7 @@ The Case/ directory contains the following files:
 
 The Firmware/ directory contains the following files:
 
- - .picowgo: A file for configuring the Picoweb server.
+ - .picowgo: This file is just used to identify a project folder.
  - README.md: A README file for the Firmware/ directory.
  - conf.json: A configuration file for the Alien Macropad.
  - main.py: The main firmware code for the Alien Macropad.
