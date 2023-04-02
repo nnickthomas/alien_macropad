@@ -33,7 +33,7 @@ The conf.json file in this directory is used to configure the macro buttons on t
     "buttons": [
         {
             "gpio": int,
-            Optional("type"): str['sequence', 'cycle']
+            Optional("mode"): str['sequence', 'cycle']
             "requests": [
                 {
                 "method": str,
