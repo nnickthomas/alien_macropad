@@ -41,7 +41,7 @@ The alien macropad requires the following components:
 | Raspberry Pi Pico W  | 1x  |
 | Alien Macropad PCB  | 1x  |
 | Top Sandwich Plate  | 1x  |
-| Bottom Sandwich Plate  | 1x |
+| Surrounding Case  | 1x |
 | Adhesive Rubber Feet  | 4x |
 
 The following steps detail how to assemble the device:
@@ -49,7 +49,7 @@ The following steps detail how to assemble the device:
 1) Place the PI into the U1 slot on the PCB and solder into place from the top. Please note that it may be easier for some people to perform the installation step at this phase as the Boostel button will be partially covered by the top sandwich!
 2) Place the Top Sandwich Plate on top
 3) Insert switches SW1-SW6 into the slots and solder into place from the bottom.
-4) Place the Bottom Sandwich Plate and secure the sandwich(top plate, PCB, bottom plate)!
+4) Place inside the Surrounding Case! (Alternatively use the Bottom Sandwich Plate for a lower profile look)
 5) Proceed to Installation!
 
 
