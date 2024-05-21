@@ -1,0 +1,179 @@
+{
+    "url": "alienpad",
+    "buttons": [
+      {
+        "position": 1,
+        "gpio": {
+          "value": 5,
+          "mutable": false
+        },
+        "mode": {
+          "options": [
+            "cycle",
+            "sequence"
+          ],
+          "value": "cycle",
+          "mutable": true
+        },
+        "requests": {
+          "value": [
+            {
+              "args": {
+                "data": {},
+                "headers": {},
+                "json": {}
+              },
+              "method": "POST",
+              "url": "http://"
+            }
+          ],
+          "mutable": true
+        }
+      },
+      {
+        "position": 2,
+        "gpio": {
+          "value": 4,
+          "mutable": false
+        },
+        "mode": {
+          "options": [
+            "cycle",
+            "sequence"
+          ],
+          "value": "cycle",
+          "mutable": true
+        },
+        "requests": {
+          "value": [
+            {
+              "args": {
+                "data": {},
+                "headers": {},
+                "json": {}
+              },
+              "method": "GET",
+              "url": "http://"
+            }
+          ],
+          "mutable": true
+        }
+      },
+      {
+        "position": 3,
+        "gpio": {
+          "value": 3,
+          "mutable": false
+        },
+        "mode": {
+          "options": [
+            "cycle",
+            "sequence"
+          ],
+          "value": "cycle",
+          "mutable": true
+        },
+        "requests": {
+          "value": [
+            {
+              "args": {
+                "data": {},
+                "headers": {},
+                "json": {}
+              },
+              "method": "GET",
+              "url": "http://"
+            }
+          ],
+          "mutable": true
+        }
+      },
+      {
+        "position": 4,
+        "gpio": {
+          "value": 6,
+          "mutable": false
+        },
+        "mode": {
+          "options": [
+            "cycle",
+            "sequence"
+          ],
+          "value": "cycle",
+          "mutable": true
+        },
+        "requests": {
+          "value": [
+            {
+              "args": {
+                "data": {},
+                "headers": {},
+                "json": {}
+              },
+              "method": "GET",
+              "url": "http://"
+            }
+          ],
+          "mutable": true
+        }
+      },
+      {
+        "position": 5,
+        "gpio": {
+          "value": 7,
+          "mutable": false
+        },
+        "mode": {
+          "options": [
+            "cycle",
+            "sequence"
+          ],
+          "value": "cycle",
+          "mutable": true
+        },
+        "requests": {
+          "value": [
+            {
+              "args": {
+                "data": {},
+                "headers": {},
+                "json": {}
+              },
+              "method": "GET",
+              "url": "http://"
+            }
+          ],
+          "mutable": true
+        }
+      },
+      {
+        "position": 6,
+        "gpio": {
+          "value": 8,
+          "mutable": false
+        },
+        "mode": {
+          "options": [
+            "cycle",
+            "sequence"
+          ],
+          "value": "cycle",
+          "mutable": true
+        },
+        "requests": {
+          "value": [
+            {
+              "args": {
+                "data": {},
+                "headers": {},
+                "json": {}
+              },
+              "method": "GET",
+              "url": "http://"
+            }
+          ],
+          "mutable": true
+        }
+      }
+    ]
+  }

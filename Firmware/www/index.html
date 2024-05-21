@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/main.js"></script>
+    <script defer src="/alpine.js"></script>
+    <link rel="stylesheet" href="/milligram.css">
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👽</text></svg>">
+    <title>Alien Macropad</title>
+
+    <style>
+        .button-wrapper {
+            display: grid;
+            grid-auto-rows: auto auto;
+            width: 100%;
+            height: 100%;
+            background-color: #e6e6e6;
+            border-radius: 0.4rem;
+            border: 1px solid #ccc;
+            padding: 16px 24px;
+            gap: 16px;
+            max-width: 700px;
+        }
+
+        .button-wrapper .button {
+            margin: 0;
+            height: 50px;
+            font-size: 24px;
+        }
+
+        .button-row-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .footer {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: right;
+            align-items: start;
+            flex-wrap: wrap;
+            gap: 8px;
+            width: 40%;
+        }
+
+        .footer .button {
+            width: 160px;
+        }
+
+        .config-panel {
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            background-color: #f6f5f5;
+            border-radius: 0.4rem;
+            border: 1px solid #ccc;
+            padding: 16px 24px;
+            margin-top: 24px;
+        }
+
+        .custom-input {
+            background-color: white !important;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        hr {
+            border-top: 0.2rem solid #9b4dca;
+            height: 1px;
+            width: 100%;
+        }
+
+        .requests-form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .requests-form-header-hover:hover {
+            background-color: #c9c9c9;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="main-container">
+        <div class="header">
+            <h1 x-text="title">👽 Alien Macropad Config</h1>
+
+            <div class="footer">
+                <button class="button" id="upload_button" x-data @click="$store.configInfo.saveConfigData()" x-bind:disabled="$store.configInfo.resetData == $store.configInfo.data">Upload</button>
+                <button class="button" id="reset_button" x-data x-bind:disabled="$store.configInfo.resetData == $store.configInfo.data">Reset</button>
+                <button class="button button-outline">Export Config</button>
+                <button class="button button-outline">Import Config</button>
+            </div>
+        </div>
+        <hr>
+        <h4>Macropad Layout</h4>
+        <div class="button-wrapper">
+            <div class="button-row-container">
+                <button class="button" x-data @click="$store.configPanel.openPanel(5)">GP5</button>
+                <button class="button" x-data @click="$store.configPanel.openPanel(4)">GP4</button>
+                <button class="button" x-data @click="$store.configPanel.openPanel(3)">GP3</button>
+            </div>
+            <div class="button-row-container">
+                <button class="button" x-data @click="$store.configPanel.openPanel(6)">GP6</button>
+                <button class="button" x-data @click="$store.configPanel.openPanel(7)">GP7</button>
+                <button class="button" x-data @click="$store.configPanel.openPanel(8)">GP8</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Side Panel-->
+
+    <template x-data x-if="$store.configPanel.open">
+        <div class="config-panel" x-data x-show="$store.configPanel.open">
+            <h2>Config for Button <span x-text="$store.configPanel.selectedButton"></span></h2>
+            <hr>
+            <div class="button-config-form">
+                <!--            <pre contenteditable=true x-data x-text="$store.configPanel.parsedButtonData"></pre>-->
+                <h3>Mode</h3>
+                <label for="mode">Options</label>
+                <select class="custom-input" id="mode" x-data x-model="$store.configPanel.modButtonData.mode.value">
+                    <option value="cycle">Cycle</option>
+                    <option value="sequence">Sequence</option>
+                </select>
+                <br>
+                <div class="requests-form-header">
+                    <h3>Requests</h3>
+                    <div>
+                        <button class="button button-outline" x-data @click="$store.configPanel.addRequest()">Add
+                            Request
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <template x-for="(request, index) in $store.configPanel.modButtonData.requests.value"
+                              :key="index">
+                        <div x-data="{hidden: true}">
+                            <div class="requests-form-header requests-form-header-hover" @click="hidden=!hidden" style="cursor: pointer;">
+                                <h5 x-text="'Request #' + (index+1)"></h5>
+                                <button class="button button-clear button-small"
+                                        @click="$store.configPanel.removeRequest(index)">
+                                    🗑️
+                                </button>
+                            </div>
+                            <div x-show="!hidden">
+                                <label for="method">Method</label>
+                                <select class="custom-input" id="method" x-model="request.method">
+                                    <option value="POST">POST</option>
+                                    <option value="GET">GET</option>
+                                    <option value="PUT">PUT</option>
+                                    <option value="PATCH">PATCH</option>
+                                    <option value="DELETE">DELETE</option>
+                                </select>
+                                <label for="url">URL</label>
+                                <input class="custom-input" type="text" id="url" x-model="request.url">
+                                <div>
+                                    <label for="json">JSON</label>
+                                    <textarea class="custom-input" type="text" id="json"
+                                              x-model="request.args.json"></textarea>
+                                    <label for="headers">Headers</label>
+                                    <textarea class="custom-input" type="text" id="headers"
+                                              x-model="request.args.headers"></textarea>
+                                    <!-- <label for="params">Params</label>
+                                    <textarea class="custom-input" type="text" id="params"
+                                              x-model="JSON.stringify(request.args.params)"></textarea> -->
+                                    <label for="data">Data</label>
+                                    <textarea class="custom-input" type="text" id="data"
+                                              x-model="request.args.data"></textarea>
+                                </div>
+                                <hr>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </template>
+</div>
+
+<!--Export Config Modal with Code preview-->
+<!--Import modal with (TBI) drag n drop-->
+</body>
+</html>
