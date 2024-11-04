@@ -25,7 +25,7 @@ To get started with the Alien Macropad, follow these steps:
 
 2. Copy the contents of this directory to the Pico. You can do this by copying the contents of the `Firmware` directory to the `CIRCUITPY` drive on the Pico.
 
-3. Once the files have been copied, reboot the Pico. The Alien Macropad will create a Wi-Fi access point called `AlienPad`. Connect to this access point using your computer or mobile device.
+3. Once the files have been copied, reboot the Pico and hold down `SW1`. The Alien Macropad will boot into setup mode and create a Wi-Fi access point called `AlienPad`. Connect to this access point using your computer or mobile device.
 
 4. Once connected to the `AlienPad` access point, open a web browser and navigate to `http://192.168.4.1`. You will be prompted to select the SSID and enter the password for your Wi-Fi network. Enter the SSID and password and click `Connect`.
 
