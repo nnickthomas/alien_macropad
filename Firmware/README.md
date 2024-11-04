@@ -21,7 +21,7 @@ Please note that odd numbered switches (SW1, SW3, SW5) share a common ground and
 
 To get started with the Alien Macropad, follow these steps:
 
-1. Install the latest version of CircuitPython on the Pico. You can download the latest version of CircuitPython from the [CircuitPython website](https://circuitpython.org/board/raspberry_pi_pico/). (Note: The Alien Macropad firmware was developed using CircuitPython 9.0.4.)
+1. Install the latest version of CircuitPython on the Pico. You can download the latest version of CircuitPython from the [CircuitPython website](https://circuitpython.org/board/raspberry_pi_pico_w/). (Note: The Alien Macropad firmware was developed using CircuitPython 9.0.4.)
 
 2. Copy the contents of this directory to the Pico. You can do this by copying the contents of the `Firmware` directory to the `CIRCUITPY` drive on the Pico.
 
